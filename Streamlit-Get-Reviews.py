@@ -64,6 +64,8 @@ if st.button("Fetch reviews"):
         reviews = get_amazon_reviews(url, max_reviews)
         if reviews:
             st.write("Reviews fetched successfully!")
+            # Initialize the total_score variable
+            total_score = 0
             for review in reviews:
                 buy_score = generate_buy_score(review)
                 total_score += buy_score
