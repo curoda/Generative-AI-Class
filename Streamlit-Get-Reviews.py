@@ -4,7 +4,7 @@ import os
 import openai
 
 # Set your OpenAI API key
-openai.api_key = OPENAI_API_KEY  # Or directly set API key (not recommended)
+openai.api_key = st.secrets["OPENAI_API_KEY"]
 
 def generate_buy_score(review):
     prompt = f"Based on the following review details, generate a Buy Score between 0 and 100, where 0 means 'don't buy' and 100 means 'definitely buy':\n\nTitle: {review['title']}\nDate: {review['date']}\nText: {review['text']}\nStars: {review['stars']}\nReaction: {review['reaction']}\n\nBuy Score:"
@@ -27,7 +27,7 @@ def generate_buy_score(review):
 
 def get_amazon_reviews(url, max_reviews):
     # Initialize the ApifyClient with your API token
-    client = ApifyClient(APIFY_API_KEY)
+    client = ApifyClient(st.secrets["APIFY_API_KEY"])
 
     # Prepare the actor input
     run_input = {
