@@ -72,10 +72,10 @@ if st.button("Fetch reviews"):
                 buy_score = generate_buy_score(review)
                 total_score += buy_score
                 
-                st.write(f"Stars: {review['ratingScore']}")
-                st.write(f"Title: {review['reviewTitle']}")
-                st.write(f"Helpful: {review['reviewReaction']}")
-                st.write(f"Description: {review['reviewDescription']}")
+                st.write(f"Stars: {review.get('ratingScore', 'N/A')}")
+                st.write(f"Title: {review.get('reviewTitle', 'N/A')}")
+                st.write(f"Reaction: {review.get('reviewReaction', 'N/A')}")
+                st.write(f"Description: {review.get('reviewDescription', 'N/A')}")
                 st.write(f"Buy Score: {buy_score}")
                 st.write("---")
                 processed_reviews += 1
@@ -88,3 +88,4 @@ if st.button("Fetch reviews"):
             st.write("No reviews found.")
     else:
         st.write("Please enter a valid Amazon product URL.")
+
