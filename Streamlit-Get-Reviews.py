@@ -15,7 +15,7 @@ def generate_buy_score(review):
         max_tokens=10,
         n=1,
         stop=None,
-        temperature=0.5,
+        temperature=0.3,
     )
 
     try:
@@ -49,15 +49,16 @@ def get_amazon_reviews(url, max_reviews):
         'reaction': item.get('reviewReaction', 'N/A'),
         'description': item.get('reviewDescription', 'N/A')
         }
-        reviews.append(item)
+        if review['reaction'] != 'N/A':  # Only add reviews with a reaction
+            reviews.append(review)
 
     return reviews
 
-st.title("Amazon Reviews Scraper")
+st.title("Amazon Buy Score Generator")
 st.write("Enter the Amazon product URL and set the maximum number of reviews to fetch:")
 
 url = st.text_input("Amazon product URL:", "")
-max_reviews = st.number_input("Max reviews:", min_value=1, value=100)
+max_reviews = st.number_input("Max reviews:", min_value=1, value=10)
 
 if st.button("Fetch reviews"):
     if url:
@@ -66,6 +67,7 @@ if st.button("Fetch reviews"):
             st.write("Reviews fetched successfully!")
             # Initialize the total_score variable
             total_score = 0
+            processed_reviews = 0
             for review in reviews:
                 buy_score = generate_buy_score(review)
                 total_score += buy_score
@@ -76,8 +78,12 @@ if st.button("Fetch reviews"):
                 st.write(f"Description: {review['reviewDescription']}")
                 st.write(f"Buy Score: {buy_score}")
                 st.write("---")
-            average_buy_score = total_score / len(reviews)
-            st.write(f"Average Buy Score: {average_buy_score:.2f}")
+                processed_reviews += 1
+            if processed_reviews > 0:
+                average_buy_score = total_score / processed_reviews
+                st.write(f"Average Buy Score: {average_buy_score:.2f}")
+            else:
+                st.write("No reviews were processed due to lack of reactions.")
         else:
             st.write("No reviews found.")
     else:
