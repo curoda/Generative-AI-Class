@@ -7,12 +7,12 @@ import openai
 openai.api_key = st.secrets["OPENAI_API_KEY"]
 
 def generate_buy_score(review):
-    prompt = f"Based on the following review details, generate a Buy Score between 0 and 100, where 0 means 'don't buy' and 100 means 'definitely buy':\n\nTitle: {review['reviewTitle']}\nDescription: {review['reviewDescription']}\nStars: {review['ratingScore']}\nReaction: {review['reviewReaction']}\n\nBuy Score:"
+    prompt = f"Based on the following review details, generate a Buy Score between 0 and 100, where 0 means 'don't buy' and 100 means 'definitely buy':\n\nTitle: {review['reviewTitle']}\nDescription: {review['reviewDescription']}\nStars: {review['ratingScore']}\nReaction: {review['reviewReaction']}\n\nShow the calculation for how you came up with that score."
 
     response = openai.Completion.create(
         engine="text-davinci-002",
         prompt=prompt,
-        max_tokens=10,
+        max_tokens=100,
         n=1,
         stop=None,
         temperature=0.5,
