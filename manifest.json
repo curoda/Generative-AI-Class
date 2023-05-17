@@ -1,0 +1,16 @@
+{
+  "name": "Amazon Product Scraper",
+  "version": "2.0",
+  "description": "Scrape product information from Amazon product pages",
+  "manifest_version": 3,
+  "content_scripts": [
+    {
+      "matches": ["https://*.amazon.com/*"],
+      "js": ["contentscript.js"]
+    }
+  ],
+  "action": {
+    "default_popup": "popup.html"
+	},
+  "permissions": ["scripting"]
+}
