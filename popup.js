@@ -49,7 +49,7 @@ async function callOpenAiApi(prompt) {
 
 function getSummary(summary, features) {
   const joinedText = `${summary}\n${features.join(', ')}`;
-  const prompt = `summarize the following product description in 100 words or less: ${joinedText}`;
+  const prompt = `summarize the following product description and feature list in 100 to 120 words.  Make sure the response includes complete sentences and does not just cut off the last sentence.  Text to summarize: ${joinedText}`;
 
   return callOpenAiApi(prompt);
 }
