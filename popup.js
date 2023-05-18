@@ -8,15 +8,15 @@ chrome.tabs.query({active: true, currentWindow: true}, async function(tabs) {
   chrome.tabs.sendMessage(tabs[0].id, {message: "get_product_data"}, async function(response) {
     document.getElementById('product-title').textContent = response.productTitle;
     document.getElementById('price').textContent = response.price;
-    document.getElementById('rating').textContent = response.rating;
-    document.getElementById('reviews').textContent = response.reviews;
+    //document.getElementById('rating').textContent = response.rating;
+    //document.getElementById('reviews').textContent = response.reviews;
 
     try {
       const summary = await getSummary(response.summary, response.features);
-      document.getElementById('summary').textContent = summary;
+      document.getElementById('highlights').textContent = summary;
 
       const buyScore = await getBuyScore(response);
-      document.getElementById('buy').textContent = buyScore;
+      document.getElementById('buy-score').textContent = buyScore;
     } catch(error) {
       console.error("Error in fetching data from OpenAI API", error);
     }
