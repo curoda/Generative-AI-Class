@@ -6,7 +6,7 @@ const API_KEY = 'YOUR_API_KEY'; // Replace with your actual API key
 
 chrome.tabs.query({active: true, currentWindow: true}, async function(tabs) {
   chrome.tabs.sendMessage(tabs[0].id, {message: "get_product_data"}, async function(response) {
-    document.getElementById('product-title').textContent = response.productTitle;
+    document.getElementById('product-title').textContent = truncateTitle(response.productTitle);
     document.getElementById('price').textContent = response.price;
     //document.getElementById('rating').textContent = response.rating;
     //document.getElementById('reviews').textContent = response.reviews;
@@ -22,6 +22,14 @@ chrome.tabs.query({active: true, currentWindow: true}, async function(tabs) {
     }
   });
 });
+
+function truncateTitle(title) {
+    if (title.length > 20) {
+        return title.substring(0, 20) + '...';
+    } else {
+        return title;
+    }
+}
 
 async function callOpenAiApi(prompt) {
   const response = await fetch(OPEN_AI_API, {
