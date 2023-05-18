@@ -14,11 +14,14 @@ chrome.tabs.query({active: true, currentWindow: true}, async function(tabs) {
     try {
       const summary = await getSummary(response.summary, response.features);
       document.getElementById('highlights').textContent = summary;
-
+    } catch(error) {
+      console.error("Error in fetching highlights data from OpenAI API", error);
+    }
+    try {
       const buyScore = await getBuyScore(response);
       document.getElementById('buy-score').textContent = buyScore;
     } catch(error) {
-      console.error("Error in fetching data from OpenAI API", error);
+      console.error("Error in fetching buy score data from OpenAI API", error);
     }
   });
 });
