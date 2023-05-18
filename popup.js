@@ -1,7 +1,7 @@
 // popup.js
-const OPEN_AI_API = 'https://api.openai.com/v1/completions';
-const MAX_TOKENS = 100;
-const MODEL = 'text-davinci-003';
+const OPEN_AI_API = 'https://api.openai.com/v1/chat/completions';
+const MAX_TOKENS = 200;
+const MODEL = 'gpt-3.5-turbo';
 const API_KEY = 'YOUR_API_KEY'; // Replace with your actual API key
 
 chrome.tabs.query({active: true, currentWindow: true}, async function(tabs) {
@@ -49,7 +49,7 @@ async function callOpenAiApi(prompt) {
 
 function getSummary(summary, features) {
   const joinedText = `${summary}\n${features.join(', ')}`;
-  const prompt = `summarize this product description: ${joinedText}`;
+  const prompt = `Summarize this product based on this information: ${joinedText}`;
 
   return callOpenAiApi(prompt);
 }
