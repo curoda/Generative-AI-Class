@@ -13,7 +13,7 @@ chrome.tabs.query({active: true, currentWindow: true}, async function(tabs) {
 
     try {
       const summary = await getSummary(response.summary, response.features);
-      document.getElementById('highlights').textContent = summary;
+      document.getElementById('highlights').textContent = createBulletedList(summary);
     } catch(error) {
       console.error("Error in fetching highlights data from OpenAI API", error);
     }
@@ -27,12 +27,29 @@ chrome.tabs.query({active: true, currentWindow: true}, async function(tabs) {
 });
 
 function truncateTitle(title) {
-    if (title.length > 20) {
-        return title.substring(0, 20) + '...';
+    if (title.length > 40) {
+        return title.substring(0, 40) + '...';
     } else {
         return title;
     }
 }
+
+function createBulletedList(text) {
+    // Split the text into an array of strings
+    const items = text.split(' - ');
+
+    // Create an HTML list from the array
+    let list = '<ul>';
+    for (let item of items) {
+        if (item.trim() !== '') { // Ignore empty items
+            list += `<li>${item.trim()}</li>`;
+        }
+    }
+    list += '</ul>';
+
+    return list;
+}
+
 
 async function callOpenAiApi(prompt) {
   const response = await fetch(OPEN_AI_API, {
