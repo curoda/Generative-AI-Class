@@ -35,7 +35,7 @@ async function callOpenAiApi(prompt) {
       prompt: prompt,
       max_tokens: MAX_TOKENS,
       temperature: 0,
-      top-p: 0.2
+      top_p: 0.2
     })
   });
 
