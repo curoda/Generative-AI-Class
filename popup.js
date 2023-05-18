@@ -1,5 +1,5 @@
 // popup.js
-const OPEN_AI_API = 'https://api.openai.com/v1/chat/completions';
+const OPEN_AI_API = 'https://api.openai.com/v1/completions';
 const MAX_TOKENS = 200;
 const MODEL = 'gpt-3.5-turbo';
 const API_KEY = 'YOUR_API_KEY'; // Replace with your actual API key
@@ -33,7 +33,9 @@ async function callOpenAiApi(prompt) {
     body: JSON.stringify({
       model: MODEL,
       prompt: prompt,
-      max_tokens: MAX_TOKENS
+      max_tokens: MAX_TOKENS,
+      temperature: 0,
+      top-p: 0.2
     })
   });
 
