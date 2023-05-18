@@ -1,7 +1,7 @@
 // popup.js
-const OPEN_AI_API = 'https://api.openai.com/v1/chat/completions';
+const OPEN_AI_API = 'https://api.openai.com/v1/completions';
 const MAX_TOKENS = 200;
-const MODEL = 'gpt-3.5-turbo';
+const MODEL = 'text-davinci-003';
 const API_KEY = 'YOUR_API_KEY'; // Replace with your actual API key
 
 chrome.tabs.query({active: true, currentWindow: true}, async function(tabs) {
