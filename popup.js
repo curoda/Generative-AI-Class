@@ -13,7 +13,7 @@ chrome.tabs.query({active: true, currentWindow: true}, async function(tabs) {
 
     try {
       const summary = await getSummary(response.summary, response.features);
-      document.getElementById('highlights').textContent = createBulletedList(summary);
+      document.getElementById('highlights').innerHTML = createBulletedList(summary);
     } catch(error) {
       console.error("Error in fetching highlights data from OpenAI API", error);
     }
@@ -27,8 +27,8 @@ chrome.tabs.query({active: true, currentWindow: true}, async function(tabs) {
 });
 
 function truncateTitle(title) {
-    if (title.length > 40) {
-        return title.substring(0, 40) + '...';
+    if (title.length > 50) {
+        return title.substring(0, 50) + '...';
     } else {
         return title;
     }
@@ -79,7 +79,7 @@ async function callOpenAiApi(prompt) {
 
 function getSummary(summary, features) {
   const joinedText = `${summary}\n${features.join(', ')}`;
-  const prompt = `Summarize this product information in about 100 words or less: ${joinedText}`;
+  const prompt = `Summarize this product information into a bulleted list of about 100 words or less: ${joinedText}`;
 
   return callOpenAiApi(prompt);
 }
