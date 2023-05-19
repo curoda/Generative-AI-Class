@@ -34,23 +34,6 @@ function truncateTitle(title) {
     }
 }
 
-function createBulletedList(text) {
-    // Split the text into an array of strings
-    const items = text.split(' - ');
-
-    // Create an HTML list from the array
-    let list = '<ul>';
-    for (let item of items) {
-        if (item.trim() !== '') { // Ignore empty items
-            list += `<li>${item.trim()}</li>`;
-        }
-    }
-    list += '</ul>';
-
-    return list;
-}
-
-
 async function callOpenAiApi(prompt) {
   const response = await fetch(OPEN_AI_API, {
     method: 'POST',
