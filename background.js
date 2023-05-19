@@ -6,30 +6,31 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     // Construct reviews page URL
     let url = "https://www.amazon.com/product-reviews/" + asin + "?reviewerType=avp_only_reviews";
 
-    fetch(url).then(response => response.text()).then(data => {
-      // Parse review data from HTML
-      let parser = new DOMParser();
-      let doc = parser.parseFromString(data, "text/html");
-      
-      // Get the review containers
-      let reviewContainers = doc.querySelectorAll('.review');
-      
-      let reviews = Array.from(reviewContainers).map(container => {
-        // Get the review title, body, and star rating
-        let title = container.querySelector('.review-title').innerText;
-        let body = container.querySelector('.review-text').innerText;
+    fetch(url)
+      .then(response => response.text())
+      .then(htmlText => {
+        // Use regular expressions to find review titles, bodies and star ratings in the HTML text
+        let titleMatches = htmlText.match(/data-hook="review-title".*?>.*?<\/span>/g) || [];
+        let bodyMatches = htmlText.match(/data-hook="review-body".*?>.*?<\/span>/g) || [];
+        let starRatingMatches = htmlText.match(/data-hook="review-star-rating".*?>.*?<\/i>/g) || [];
 
-        // Extract star rating from class
-        let starClass = container.querySelector('.review-rating').getAttribute('class');
-        let starRatingMatch = starClass.match(/a-star-([0-9]+)/);
-        let starRating = starRatingMatch ? starRatingMatch[1] : null;
+        // Extract the actual titles, bodies, and star ratings from the matched strings
+        let reviewTitles = titleMatches.map(str => str.replace(/.*data-hook="review-title".*?>(.*?)<\/span>/, "$1").trim());
+        let reviewBodies = bodyMatches.map(str => str.replace(/.*data-hook="review-body".*?>(.*?)<\/span>/, "$1").trim());
+        let reviewStarRatings = starRatingMatches.map(str => str.replace(/.*data-hook="review-star-rating".*?>.*?a-star-(.*?)<\/i>/, "$1").trim());
 
-        return { title, body, starRating };
-      });
+        // Pair up the titles, bodies and star ratings into an array of review objects
+        let reviews = reviewTitles.map((title, i) => ({ 
+          title: title, 
+          body: reviewBodies[i],
+          starRating: reviewStarRatings[i]
+        }));
 
-      sendResponse({ reviews: reviews });
-    });
-    
+        sendResponse({ reviews: reviews });
+      })
+      .catch(error => console.error("Error fetching reviews:", error));
+
     return true;  // Will respond asynchronously
   }
 });
+
