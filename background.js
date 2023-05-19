@@ -17,7 +17,12 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         // Extract the actual titles, bodies, and star ratings from the matched strings
         let reviewTitles = titleMatches.map(str => str.replace(/.*data-hook="review-title".*?>(.*?)<\/span>/, "$1").trim());
         let reviewBodies = bodyMatches.map(str => str.replace(/.*data-hook="review-body".*?>(.*?)<\/span>/, "$1").trim());
-        let reviewStarRatings = starRatingMatches.map(str => str.replace(/.*data-hook="review-star-rating".*?>.*?a-star-(.*?)<\/i>/, "$1").trim());
+        
+        // Extract the star ratings from the inner span element of the matched strings
+        let reviewStarRatings = starRatingMatches.map(str => {
+            let match = str.match(/<span class="a-icon-alt">(.*?)<\/span>/);
+            return match ? match[1] : "";
+        });
 
         // Pair up the titles, bodies and star ratings into an array of review objects
         let reviews = reviewTitles.map((title, i) => ({ 
@@ -33,4 +38,5 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     return true;  // Will respond asynchronously
   }
 });
+
 
