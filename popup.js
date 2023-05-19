@@ -9,7 +9,15 @@ chrome.tabs.query({active: true, currentWindow: true}, async function(tabs) {
     document.getElementById('product-title').textContent = truncateTitle(response.productTitle);
     document.getElementById('price').textContent = response.price;
     //document.getElementById('rating').textContent = response.rating;
-    document.getElementById('reviews').textContent = response.reviews;
+    
+    
+    // Create one big blob of text from the reviews array
+    let reviewsText = response.reviews.map((review, index) => {
+      return `Review ${index+1}:\nTitle: ${review.title}\nBody: ${review.body}\nStar Rating: ${review.starRating}\n\n`;
+    }).join('');
+
+    console.log(reviewsText); // or use this string in your desired way
+    document.getElementById('reviews').textContent = reviewsText;
 
     try {
       const summary = await getSummary(response.summary, response.features);
