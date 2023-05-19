@@ -13,7 +13,7 @@ chrome.tabs.query({active: true, currentWindow: true}, async function(tabs) {
 
     try {
       const summary = await getSummary(response.summary, response.features);
-      document.getElementById('highlights').innerHTML = createBulletedList(summary);
+      document.getElementById('highlights').innerHTML = summary;
     } catch(error) {
       console.error("Error in fetching highlights data from OpenAI API", error);
     }
@@ -79,7 +79,7 @@ async function callOpenAiApi(prompt) {
 
 function getSummary(summary, features) {
   const joinedText = `${summary}\n${features.join(', ')}`;
-  const prompt = `Summarize this product information into 100 words or less: ${joinedText}`;
+  const prompt = `summarize the following product description into 8 or fewer bullet points.  Return it as html code using <ul> and <li> tags ${joinedText}`;
 
   return callOpenAiApi(prompt);
 }
