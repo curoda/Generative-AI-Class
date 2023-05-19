@@ -15,8 +15,8 @@
   "action": {
     "default_popup": "popup.html"
   },
-  "permissions": [
-    "scripting",
+  "permissions": ["scripting"],
+  "host_permissions": [
     "https://www.amazon.com/*"
   ]
 }
