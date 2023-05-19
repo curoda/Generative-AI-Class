@@ -1,7 +1,7 @@
 {
-  "name": "Amazon Product Scraper",
+  "name": "Amazon Buy Score",
   "version": "2.0",
-  "description": "Scrape product information from Amazon product pages",
+  "description": "Get an AI powered product summary, review summary, and buy recommendation.",
   "manifest_version": 3,
   "content_scripts": [
     {
@@ -9,8 +9,15 @@
       "js": ["contentscript.js"]
     }
   ],
+  "background": {
+    "service_worker": "background.js"
+  },
   "action": {
     "default_popup": "popup.html"
-	},
-  "permissions": ["scripting"]
+  },
+  "permissions": [
+    "scripting",
+    "https://www.amazon.com/*"
+  ]
 }
+
