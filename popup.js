@@ -9,7 +9,7 @@ chrome.tabs.query({active: true, currentWindow: true}, async function(tabs) {
     document.getElementById('product-title').textContent = truncateTitle(response.productTitle);
     document.getElementById('price').textContent = response.price;
     //document.getElementById('rating').textContent = response.rating;
-    //document.getElementById('reviews').textContent = response.reviews;
+    document.getElementById('reviews').textContent = response.reviews;
 
     try {
       const summary = await getSummary(response.summary, response.features);
